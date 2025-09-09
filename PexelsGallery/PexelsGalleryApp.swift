@@ -9,9 +9,16 @@ import SwiftUI
 
 @main
 struct PexelsGalleryApp: App {
+    @StateObject private var viewModel = PexelsViewModel()
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(viewModel: viewModel)
+                .onAppear {
+                    Task {
+                        await viewModel.fetchImages()
+                    }
+                }
         }
     }
 }
