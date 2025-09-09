@@ -26,9 +26,9 @@ struct ContentView: View {
                     }
                 )
             }
-
             .navigationTitle("Pexels Gallery")
             .onAppear {
+                print(viewModel.error ?? "No error")
                 Task {
                     await viewModel.fetchImages()
                 }

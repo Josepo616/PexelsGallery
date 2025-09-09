@@ -8,33 +8,32 @@
 import Foundation
 
 struct PexelsGallery: Identifiable, Hashable {
-    var id: UUID
-    var url: URL
-    var endpoint: String
-    var query: String
-    var page: Int
+    let id: UUID
+    let endpoint: PexelsEndpoint
+    let query: String
+    let page: Int
 
-    init(
-        id: UUID,
-        baseURL: URL? = URL(string: "https://api.pexels.com/v1/"),
-        endpoint: String,
-        query: String,
-        page: Int
-    ) {
-        guard let baseURL = baseURL else {
-            fatalError("Base URL not provided")
+    var url: URL {
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host = "api.pexels.com"
+        components.path = endpoint.path
+        components.queryItems = [
+            URLQueryItem(name: "query", value: query),
+            URLQueryItem(name: "page", value: "\(page)")
+        ]
+
+        guard let finalURL = components.url else {
+            fatalError("Invalid URL components: \(components)")
         }
+        return finalURL
+    }
 
+    init(id: UUID = UUID(), endpoint: PexelsEndpoint, query: String, page: Int) {
         self.id = id
-        let urlString =
-            baseURL.appendingPathComponent(endpoint).absoluteString
-            + "?query=\(query)" + "&page=\(page)"
-        guard let finalUrl = URL(string: urlString) else {
-            fatalError("Invalid URL")
-        }
-        self.url = finalUrl
         self.endpoint = endpoint
         self.query = query
         self.page = page
     }
 }
+

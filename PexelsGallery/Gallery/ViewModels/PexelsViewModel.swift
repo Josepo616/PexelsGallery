@@ -17,7 +17,7 @@ class PexelsViewModel: ObservableObject {
     
     private let client: PexelsClientProtocol
     
-    init(client: PexelsClientProtocol = PexelsClient(networkClient: NetworkClient(), apiKey: "nHjZysc3wXqp1jwscxPDQZ0hPYK5ufovkTjsKbhxw0ISEAf8sjBJwI2J")) {
+    init(client: PexelsClientProtocol = PexelsClient(networkClient: NetworkClient(), requestBuilder: PexelsRequestBuilder(), apiKey: "nHjZysc3wXqp1jwscxPDQZ0hPYK5ufovkTjsKbhxw0ISEAf8sjBJwI2J")) {
         self.client = client
     }
 
@@ -34,7 +34,6 @@ class PexelsViewModel: ObservableObject {
         
         do {
             let newImages = try await client.searchImages(query: "dark ambiance", page: currentPage)
-            
             if isLoadMore {
                 self.images.append(contentsOf: newImages)
             } else {

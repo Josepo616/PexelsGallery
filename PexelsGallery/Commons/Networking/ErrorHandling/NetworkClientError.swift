@@ -7,7 +7,6 @@
 
 import Foundation
  
-
 enum NetworkClientError: Error {
     // URL / red
     case badUrl
