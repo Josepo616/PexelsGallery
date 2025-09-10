@@ -19,6 +19,8 @@ struct ImageDetailView: View {
                     .resizable()
                     .scaledToFit()
             } placeholder: {
+                Text("Loading image...")
+                    .foregroundColor(.gray)
                 ProgressView()
             }
         }
@@ -35,7 +37,7 @@ struct ImageDetailView: View {
         }
         .sheet(isPresented: $showInfoSheet) {
             ImageInfoSheet(image: image)
-                .presentationDetents([.medium])
+                .presentationDetents([.fraction(0.35)])
         }
     }
 }

@@ -10,39 +10,62 @@ import Foundation
 @MainActor
 class PexelsViewModel: ObservableObject {
     @Published var images: [PexelsImageModel] = []
-    @Published var error: Error?
-    
+    @Published var error: NetworkClientError?
+    @Published var loadingState: LoadingState = .initialLoading
+    @Published var showAlert = false
+
     private var currentPage = 1
     private var isLoading = false
-    
+
     private let client: PexelsClientProtocol
-    
-    init(client: PexelsClientProtocol = PexelsClient(networkClient: NetworkClient(), requestBuilder: PexelsRequestBuilder(), apiKey: "nHjZysc3wXqp1jwscxPDQZ0hPYK5ufovkTjsKbhxw0ISEAf8sjBJwI2J")) {
+
+    init(
+        client: PexelsClientProtocol = PexelsClient(
+            networkClient: NetworkClient(),
+            requestBuilder: PexelsRequestBuilder(),
+            apiKey: "nHjZysc3wXqp1jwscxPDQZ0hPYK5ufovkTjsKbhxw0ISEAf8sjBJwI2J"
+        )
+    ) {
         self.client = client
     }
 
-    func fetchImages(isLoadMore: Bool = false) async {
+    func fetchImages(isLoadMore: Bool = false, preserveData: Bool = false) async {
         guard !isLoading else { return }
+
         isLoading = true
         defer { isLoading = false }
-        
+
         if isLoadMore {
             currentPage += 1
+            loadingState = .loadingMore
         } else {
             currentPage = 1
+            loadingState = preserveData ? .loadingMore : .initialLoading
         }
-        
+
         do {
-            let newImages = try await client.searchImages(query: "dark ambiance", page: currentPage)
+            try await Task.sleep(for: .seconds(2))
+
+            let newImages = try await client.searchImages(
+                query: "dark ambiance",
+                page: currentPage
+            )
+
             if isLoadMore {
-                self.images.append(contentsOf: newImages)
+                images.append(contentsOf: newImages)
             } else {
-                self.images = newImages
+                images = preserveData ? images + newImages : newImages
             }
-        } catch {
+
+            loadingState = images.isEmpty ? .empty : .loaded
+        } catch let error as NetworkClientError {
+            showAlert = true
             self.error = error
+            loadingState = .error
+        } catch {
+            showAlert = true
+            self.error = .invalidResponse
+            loadingState = .error
         }
     }
 }
-
-

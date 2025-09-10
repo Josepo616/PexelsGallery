@@ -10,10 +10,10 @@ import SwiftUI
 @main
 struct PexelsGalleryApp: App {
     @StateObject private var viewModel = PexelsViewModel()
-    
+
     var body: some Scene {
         WindowGroup {
-            ContentView(viewModel: viewModel)
+            MainListView(viewModel: viewModel)
                 .onAppear {
                     Task {
                         await viewModel.fetchImages()

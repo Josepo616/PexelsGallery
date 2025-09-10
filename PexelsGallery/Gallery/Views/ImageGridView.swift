@@ -7,7 +7,10 @@
 
 import SwiftUI
 
+import SwiftUI
+
 struct ImageGridView: View {
+
     let images: [PexelsImageModel]
     let onImageTap: (Int) -> Void
     let loadMore: () -> Void

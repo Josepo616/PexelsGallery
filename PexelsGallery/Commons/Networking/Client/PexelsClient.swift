@@ -19,6 +19,10 @@ class PexelsClient: PexelsClientProtocol{
     }
     
     func searchImages(query: String, page: Int) async throws -> [PexelsImageModel] {
+        guard isInternetAvailable() else {
+            throw NetworkClientError.noConnection
+        }
+        
         let gallery = PexelsGallery(id: UUID(), endpoint: PexelsEndpoint.photoSearch, query: query, page: page)
         return try await fetchImagesModels(from: gallery)
     }

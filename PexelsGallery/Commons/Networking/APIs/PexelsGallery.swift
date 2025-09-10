@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct PexelsGallery: Identifiable, Hashable {
+struct PexelsGallery: Identifiable {
     let id: UUID
     let endpoint: PexelsEndpoint
     let query: String
