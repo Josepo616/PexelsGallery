@@ -8,9 +8,9 @@
 import Foundation
 
 @MainActor
-class PexelsViewModel: ObservableObject {
+class PexelsVideoViewModel: ObservableObject {
     
-    @Published var images: [PexelsImageModel] = []
+    @Published var videos: [PexelsVideoModel] = []
     @Published var error: NetworkClientError?
     @Published var loadingState: LoadingState = .initialLoading
     @Published var showAlert = false
@@ -30,12 +30,16 @@ class PexelsViewModel: ObservableObject {
         self.client = client
     }
 
-    func fetchImages(isLoadMore: Bool = false, preserveData: Bool = false) async
-    {
-        guard !isLoading else { return }
+    func fetchVideos(isLoadMore: Bool = false, preserveData: Bool = false) async {
+
+        guard !isLoading else {
+            return
+        }
 
         isLoading = true
-        defer { isLoading = false }
+        defer {
+            isLoading = false
+        }
 
         if isLoadMore {
             currentPage += 1
@@ -48,19 +52,19 @@ class PexelsViewModel: ObservableObject {
         do {
             try await Task.sleep(for: .seconds(2))
 
-            let newImages = try await client.searchImages(
-                query: "dark ambiance",
-                perPage: 30,
+            let newVideos = try await client.searchVideos(
+                query: "dark",
+                perPage: 12,
                 page: currentPage
             )
 
             if isLoadMore {
-                images.append(contentsOf: newImages)
+                videos.append(contentsOf: newVideos)
             } else {
-                images = preserveData ? images + newImages : newImages
+                videos = preserveData ? videos + newVideos : newVideos
             }
 
-            loadingState = images.isEmpty ? .empty : .loaded
+            loadingState = videos.isEmpty ? .empty : .loaded
         } catch let error as NetworkClientError {
             showAlert = true
             self.error = error

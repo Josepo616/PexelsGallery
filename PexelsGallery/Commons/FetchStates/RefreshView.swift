@@ -8,16 +8,22 @@
 import SwiftUI
 
 struct RefreshView: View {
-
-    var viewModel: PexelsViewModel
+    var viewModel: PexelsImageViewModel?
+    var viewModel2: PexelsVideoViewModel?
 
     var body: some View {
         VStack(spacing: 16) {
-            Text("Failed to load images.")
+            Text("Failed to load content.")
                 .foregroundColor(.red)
+
             Button("Retry") {
                 Task {
-                    await viewModel.fetchImages(preserveData: !viewModel.images.isEmpty)
+                    if let imageVM = viewModel {
+                        await imageVM.fetchImages(preserveData: !imageVM.images.isEmpty)
+                    }
+                    if let videoVM = viewModel2 {
+                        await videoVM.fetchVideos(preserveData: !videoVM.videos.isEmpty)
+                    }
                 }
             }
             .padding()
@@ -28,3 +34,4 @@ struct RefreshView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
+

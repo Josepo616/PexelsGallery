@@ -8,7 +8,7 @@
 import SwiftUI
 struct ImagesScrollView: View {
     
-    @ObservedObject var viewModel: PexelsViewModel
+    @ObservedObject var viewModel: PexelsImageViewModel
     @Binding var selectedImageID: Int?
 
     var body: some View {

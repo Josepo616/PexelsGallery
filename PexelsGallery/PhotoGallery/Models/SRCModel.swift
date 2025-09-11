@@ -6,7 +6,7 @@
 //
 
 struct SRCModel: Decodable {
-    
+
     let original: String
     let medium: String
 }

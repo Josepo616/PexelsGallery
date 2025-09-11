@@ -51,4 +51,53 @@ class PexelsClient: PexelsClientProtocol {
         )
         return response.photos
     }
+    
+    func searchVideos(query: String, perPage: Int, page: Int) async throws -> [PexelsVideoModel] {
+        let isConnected = await checkInternetConnection()
+        
+        print("[DEBUG] Checking internet connection: \(isConnected)")
+
+        guard isConnected else {
+            print("[DEBUG] No internet connection detected.")
+            throw NetworkClientError.noConnection
+        }
+
+        let gallery = PexelsGalleryAPI(
+            id: UUID(),
+            endpoint: PexelsEndpoint.videoSearch,
+            query: query,
+            perPage: perPage,
+            page: page
+        )
+
+        print("[DEBUG] Created gallery for videos: \(gallery)")
+
+        do {
+            let videos = try await fetchVideosModels(from: gallery)
+            print("[DEBUG] Successfully fetched \(videos.count) videos")
+            return videos
+        } catch {
+            print("[DEBUG] Error fetching videos: \(error)")
+            throw error
+        }
+    }
+
+    func fetchVideosModels(from gallery: PexelsGalleryAPI) async throws -> [PexelsVideoModel] {
+        let request = requestBuilder.buildRequest(for: gallery, apiKey: apiKey)
+        
+        if let url = request.url {
+            print("[DEBUG] Built request URL: \(url.absoluteString)")
+        } else {
+            print("[DEBUG] Failed to build request URL")
+        }
+
+        do {
+            let response: PexelsVideoResponse = try await networkClient.sendRequest(request)
+            print("[DEBUG] Received response with \(response.videos.count) videos")
+            return response.videos
+        } catch {
+            print("[DEBUG] Network request failed with error: \(error)")
+            throw error
+        }
+    }
 }

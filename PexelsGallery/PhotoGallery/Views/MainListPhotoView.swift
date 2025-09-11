@@ -1,5 +1,5 @@
 //
-//  MainListView.swift
+//  MainListPhotoView.swift
 //  PexelsGallery
 //
 //  Created by JoseAlvarez on 9/8/25.
@@ -7,14 +7,14 @@
 
 import SwiftUI
 
-struct MainListView: View {
+struct MainListPhotoView: View {
 
-    @ObservedObject var viewModel: PexelsViewModel
+    @ObservedObject var viewModel: PexelsImageViewModel
     @State private var selectedImageID: Int? = nil
 
     var body: some View {
         NavigationStack {
-            MainListContentView(
+            MainListPhotoContentview(
                 viewModel: viewModel,
                 selectedImageID: $selectedImageID
             )
