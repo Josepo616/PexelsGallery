@@ -8,10 +8,10 @@
 import Network
 
 func checkInternetConnection() async -> Bool {
+    
     await withCheckedContinuation { continuation in
         let monitor = NWPathMonitor()
         let queue = DispatchQueue(label: "CheckInternetConnectionQueue")
-        
         monitor.pathUpdateHandler = { path in
             continuation.resume(returning: path.status == .satisfied)
             monitor.cancel()

@@ -8,6 +8,7 @@
 import Foundation
 
 class NetworkClient: NetworkClientProtocol {
+    
     private let session: URLSession
 
     init(session: URLSession = .shared) {
@@ -17,13 +18,12 @@ class NetworkClient: NetworkClientProtocol {
     func sendRequest<T: Decodable>(_ request: URLRequest) async throws -> T {
         do {
             let (data, response) = try await session.data(for: request)
-            
             guard let httpResponse = response as? HTTPURLResponse,
-                  (200...299).contains(httpResponse.statusCode)
+                (200...299).contains(httpResponse.statusCode)
             else {
                 throw NetworkClientError.invalidResponse
             }
-            
+
             let decoder = JSONDecoder()
             decoder.keyDecodingStrategy = .convertFromSnakeCase
             return try decoder.decode(T.self, from: data)
@@ -47,7 +47,7 @@ class NetworkClient: NetworkClientProtocol {
                 throw NetworkClientError.badConnection
             }
         } catch {
-            throw NetworkClientError.badConnection
+            throw NetworkClientError.unknown
         }
     }
 }

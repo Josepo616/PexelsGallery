@@ -9,5 +9,5 @@ import Foundation
 
 protocol PexelsClientProtocol {
     func searchImages(query: String, perPage: Int, page: Int) async throws -> [PexelsImageModel]
-    func fetchImagesModels(from galleryImage: PexelsGallery) async throws -> [PexelsImageModel]
+    func fetchImagesModels(from galleryImage: PexelsGalleryAPI) async throws -> [PexelsImageModel]
 }

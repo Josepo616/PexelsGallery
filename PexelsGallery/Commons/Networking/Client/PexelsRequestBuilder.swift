@@ -8,7 +8,10 @@
 import Foundation
 
 class PexelsRequestBuilder: RequestBuilderProtocol {
-    func buildRequest(for gallery: PexelsGallery, apiKey: String) -> URLRequest {
+
+    func buildRequest(for gallery: PexelsGalleryAPI, apiKey: String)
+        -> URLRequest
+    {
         var request = URLRequest(url: gallery.url)
         request.setValue(apiKey, forHTTPHeaderField: "Authorization")
         request.httpMethod = "GET"

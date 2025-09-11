@@ -5,19 +5,10 @@
 //  Created by JoseAlvarez on 9/9/25.
 //
 
-import Foundation
- 
 enum NetworkClientError: Error {
-    // URL / red
-    case badUrl
-    case badConnection
-    case noConnection
-    case timeout
-    case connectionFailed
-    case hostNotFound
-    case sslError
-    case connectionLost
-    case invalidResponse
+
+    case badUrl, badConnection, noConnection, timeout, connectionFailed,
+        hostNotFound, sslError, connectionLost, invalidResponse, unknown
 
     var localizedDescription: String {
         switch self {
@@ -40,6 +31,8 @@ enum NetworkClientError: Error {
             return "The network connection was lost."
         case .invalidResponse:
             return "The server did not return a valid response."
+        case .unknown:
+            return "An unknown error occurred."
         }
     }
 }
