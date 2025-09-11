@@ -9,6 +9,7 @@ import SwiftUI
 
 @main
 struct PexelsGalleryApp: App {
+    
     @StateObject private var viewModel = PexelsViewModel()
 
     var body: some Scene {

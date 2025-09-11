@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ImageDetailView: View {
-    
+
     @State private var showInfoSheet = false
     let image: PexelsImageModel
 

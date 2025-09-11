@@ -9,6 +9,7 @@ import Foundation
 
 @MainActor
 class PexelsViewModel: ObservableObject {
+    
     @Published var images: [PexelsImageModel] = []
     @Published var error: NetworkClientError?
     @Published var loadingState: LoadingState = .initialLoading
@@ -29,7 +30,8 @@ class PexelsViewModel: ObservableObject {
         self.client = client
     }
 
-    func fetchImages(isLoadMore: Bool = false, preserveData: Bool = false) async {
+    func fetchImages(isLoadMore: Bool = false, preserveData: Bool = false) async
+    {
         guard !isLoading else { return }
 
         isLoading = true
