@@ -28,4 +28,3 @@ struct RefreshView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
-

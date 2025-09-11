@@ -48,6 +48,7 @@ class PexelsViewModel: ObservableObject {
 
             let newImages = try await client.searchImages(
                 query: "dark ambiance",
+                perPage: 30,
                 page: currentPage
             )
 

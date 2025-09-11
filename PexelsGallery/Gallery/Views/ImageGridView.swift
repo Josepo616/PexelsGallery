@@ -7,8 +7,6 @@
 
 import SwiftUI
 
-import SwiftUI
-
 struct ImageGridView: View {
 
     let images: [PexelsImageModel]
@@ -23,22 +21,22 @@ struct ImageGridView: View {
         ]) {
             ForEach(images.indices, id: \.self) { index in
                 let image = images[index]
-
                 VStack {
                     AsyncImage(url: URL(string: image.src.medium)) { image in
-                        image.resizable()
-                            .scaledToFit()
-                            .frame(height: 200)
+                        image
+                            .resizable()
+                            .frame(width: 150, height: 180)
+                            .cornerRadius(8)
+                            .shadow(color: .black.opacity(0.1), radius: 4, x: 0, y: 2)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 8)
+                                    .stroke(Color.gray.opacity(0.3), lineWidth: 1)
+                            )
                     } placeholder: {
                         ProgressView()
                             .frame(height: 200)
                     }
-
-                    Text(image.photographer)
-                        .font(.subheadline)
-                        .foregroundColor(.gray)
                 }
-                .padding()
                 .onTapGesture {
                     onImageTap(image.id)
                 }

@@ -18,15 +18,17 @@ class PexelsClient: PexelsClientProtocol{
         self.apiKey = apiKey
     }
     
-    func searchImages(query: String, page: Int) async throws -> [PexelsImageModel] {
-        guard isInternetAvailable() else {
+    func searchImages(query: String, perPage: Int, page: Int) async throws -> [PexelsImageModel] {
+        let isConnected = await checkInternetConnection()
+        
+        guard isConnected else {
             throw NetworkClientError.noConnection
         }
-        
-        let gallery = PexelsGallery(id: UUID(), endpoint: PexelsEndpoint.photoSearch, query: query, page: page)
+
+        let gallery = PexelsGallery(id: UUID(), endpoint: PexelsEndpoint.photoSearch, query: query, perPage: perPage, page: page)
         return try await fetchImagesModels(from: gallery)
     }
-    
+
     func fetchImagesModels(from gallery: PexelsGallery) async throws -> [PexelsImageModel] {
         let request = requestBuilder.buildRequest(for: gallery, apiKey: apiKey)
         let response: PexelsImageResponse = try await networkClient.sendRequest(request)
