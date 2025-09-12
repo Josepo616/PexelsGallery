@@ -20,7 +20,10 @@ struct MainListVideoView: View {
             )
             .navigationTitle("Pexels Gallery")
             .navigationDestination(item: $selectedVideoID) { videoID in
-                VideoDestinationView(videoID: videoID, videos: viewModel2.videos)
+                VideoDestinationView(
+                    videoID: videoID,
+                    videos: viewModel2.videos
+                )
             }
         }
         .alert("Error", isPresented: $viewModel2.showAlert) {

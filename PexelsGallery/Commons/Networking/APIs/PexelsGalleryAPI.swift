@@ -8,7 +8,7 @@
 import Foundation
 
 struct PexelsGalleryAPI: Identifiable {
-    
+
     let id: UUID
     let endpoint: PexelsEndpoint
     let query: String
@@ -24,12 +24,11 @@ struct PexelsGalleryAPI: Identifiable {
             URLQueryItem(name: "query", value: query),
             URLQueryItem(name: "per_page", value: "\(perPage)"),
             URLQueryItem(name: "page", value: "\(page)"),
-
         ]
-
         guard let finalURL = components.url else {
             fatalError("Invalid URL components: \(components)")
         }
+
         return finalURL
     }
 

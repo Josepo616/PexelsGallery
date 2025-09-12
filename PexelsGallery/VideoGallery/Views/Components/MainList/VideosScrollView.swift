@@ -6,8 +6,9 @@
 //
 
 import SwiftUI
+
 struct VideosScrollView: View {
-    
+
     @ObservedObject var viewModel2: PexelsVideoViewModel
     @Binding var selectedVideoID: Int?
 
@@ -37,7 +38,9 @@ struct VideosScrollView: View {
     }
 
     private func loadInitialImagesIfNeeded() {
-        if viewModel2.videos.isEmpty && viewModel2.loadingState == .initialLoading {
+        if viewModel2.videos.isEmpty
+            && viewModel2.loadingState == .initialLoading
+        {
             Task {
                 await viewModel2.fetchVideos()
             }

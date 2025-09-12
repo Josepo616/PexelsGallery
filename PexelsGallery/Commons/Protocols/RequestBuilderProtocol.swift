@@ -8,5 +8,6 @@
 import Foundation
 
 protocol RequestBuilderProtocol {
+    
     func buildRequest(for gallery: PexelsGalleryAPI, apiKey: String) -> URLRequest
 }

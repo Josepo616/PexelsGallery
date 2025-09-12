@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct MainListPhotoContentview: View {
-    
+
     @ObservedObject var viewModel: PexelsImageViewModel
     @Binding var selectedImageID: Int?
 

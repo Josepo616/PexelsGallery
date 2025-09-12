@@ -6,8 +6,9 @@
 //
 
 import SwiftUI
+
 struct ImagesScrollView: View {
-    
+
     @ObservedObject var viewModel: PexelsImageViewModel
     @Binding var selectedImageID: Int?
 
@@ -37,7 +38,8 @@ struct ImagesScrollView: View {
     }
 
     private func loadInitialImagesIfNeeded() {
-        if viewModel.images.isEmpty && viewModel.loadingState == .initialLoading {
+        if viewModel.images.isEmpty && viewModel.loadingState == .initialLoading
+        {
             Task {
                 await viewModel.fetchImages()
             }

@@ -14,7 +14,7 @@ class PexelsRequestBuilder: RequestBuilderProtocol {
     {
         var request = URLRequest(url: gallery.url)
         request.setValue(apiKey, forHTTPHeaderField: "Authorization")
-        request.httpMethod = "GET"
+        request.httpMethod = httpMethods.get.rawValue
         return request
     }
 }

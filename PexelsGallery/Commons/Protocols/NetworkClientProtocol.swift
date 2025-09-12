@@ -8,6 +8,7 @@
 import Foundation
 
 protocol NetworkClientProtocol {
+    
     func sendRequest<T: Decodable>(
         _ request: URLRequest,
     ) async throws -> T

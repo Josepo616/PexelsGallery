@@ -6,11 +6,11 @@
 //
 
 struct PexelsVideoModel: Decodable, Identifiable {
-    
+
     let id: Int
     let image: String
     let videoFiles: [VideoFile]
-    
+
     enum CodingKeys: String, CodingKey {
         case id
         case image

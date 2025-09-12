@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct RefreshView: View {
+    
     var viewModel: PexelsImageViewModel?
     var viewModel2: PexelsVideoViewModel?
 
@@ -15,14 +16,17 @@ struct RefreshView: View {
         VStack(spacing: 16) {
             Text("Failed to load content.")
                 .foregroundColor(.red)
-
             Button("Retry") {
                 Task {
                     if let imageVM = viewModel {
-                        await imageVM.fetchImages(preserveData: !imageVM.images.isEmpty)
+                        await imageVM.fetchImages(
+                            preserveData: !imageVM.images.isEmpty
+                        )
                     }
                     if let videoVM = viewModel2 {
-                        await videoVM.fetchVideos(preserveData: !videoVM.videos.isEmpty)
+                        await videoVM.fetchVideos(
+                            preserveData: !videoVM.videos.isEmpty
+                        )
                     }
                 }
             }
@@ -34,4 +38,3 @@ struct RefreshView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
-

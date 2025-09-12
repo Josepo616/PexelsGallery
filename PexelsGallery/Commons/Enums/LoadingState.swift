@@ -6,6 +6,7 @@
 //
 
 enum LoadingState {
+
     case initialLoading
     case loadingMore
     case loaded

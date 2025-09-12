@@ -6,6 +6,6 @@
 //
 
 struct PexelsVideoResponse: Decodable {
-    
+
     let videos: [PexelsVideoModel]
 }

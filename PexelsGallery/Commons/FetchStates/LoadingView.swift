@@ -11,23 +11,21 @@ struct LoadingView: View {
 
     var viewModel: PexelsImageViewModel?
     var viewModel2: PexelsVideoViewModel?
-    
+
     var body: some View {
         VStack {
-            if let _ = viewModel {
+            if viewModel != nil {
                 Text("Loading images...")
                     .foregroundColor(.gray)
-            } else if let _ = viewModel2 {
+            } else if viewModel2 != nil {
                 Text("Loading videos...")
                     .foregroundColor(.gray)
             } else {
                 Text("Loading...")
                     .foregroundColor(.gray)
             }
-
             ProgressView()
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
-
 }

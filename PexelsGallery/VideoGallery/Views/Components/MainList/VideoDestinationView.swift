@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct VideoDestinationView: View {
-    
+
     let videoID: Int
     let videos: [PexelsVideoModel]
 

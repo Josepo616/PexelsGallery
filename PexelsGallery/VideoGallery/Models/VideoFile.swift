@@ -6,7 +6,7 @@
 //
 
 struct VideoFile: Decodable {
-    
+
     let id: Int
     let quality: String
     let link: String

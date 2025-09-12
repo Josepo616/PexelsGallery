@@ -26,18 +26,14 @@ class PexelsClient: PexelsClientProtocol {
     func searchImages(query: String, perPage: Int, page: Int) async throws
         -> [PexelsImageModel]
     {
-        let isConnected = await checkInternetConnection()
-
-        guard isConnected else {
-            throw NetworkClientError.noConnection
-        }
+        try await hasInternetConnection()
 
         let gallery = PexelsGalleryAPI(
             id: UUID(),
             endpoint: PexelsEndpoint.photoSearch,
             query: query,
             perPage: perPage,
-            page: page
+            page: page,
         )
         return try await fetchImagesModels(from: gallery)
     }
@@ -55,11 +51,7 @@ class PexelsClient: PexelsClientProtocol {
     func searchVideos(query: String, perPage: Int, page: Int) async throws
         -> [PexelsVideoModel]
     {
-        let isConnected = await checkInternetConnection()
-
-        guard isConnected else {
-            throw NetworkClientError.noConnection
-        }
+        try await hasInternetConnection()
 
         let gallery = PexelsGalleryAPI(
             id: UUID(),
@@ -81,13 +73,19 @@ class PexelsClient: PexelsClientProtocol {
         -> [PexelsVideoModel]
     {
         let request = requestBuilder.buildRequest(for: gallery, apiKey: apiKey)
-
         do {
             let response: PexelsVideoResponse =
                 try await networkClient.sendRequest(request)
             return response.videos
         } catch {
             throw error
+        }
+    }
+
+    private func hasInternetConnection() async throws {
+        let isConnected = await checkInternetConnection()
+        guard isConnected else {
+            throw NetworkClientError.noConnection
         }
     }
 }
