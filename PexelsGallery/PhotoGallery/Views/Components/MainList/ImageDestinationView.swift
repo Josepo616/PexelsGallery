@@ -13,10 +13,8 @@ struct ImageDestinationView: View {
     let images: [PexelsImageModel]
 
     var body: some View {
-        if let image = images.first(where: { $0.id == imageID }) {
+        GenericDestinationView(id: imageID, items: images, itemType: "Image") { image in
             ImageDetailView(image: image)
-        } else {
-            Text("Image not found")
         }
     }
 }

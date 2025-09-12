@@ -8,31 +8,37 @@
 import SwiftUI
 
 struct MainListVideoContentView: View {
-    
+
     @ObservedObject var videosViewModel: PexelsVideoViewModel
     @Binding var selectedVideoID: Int?
 
     var body: some View {
-        switch videosViewModel.loadingState {
-        case .initialLoading:
-            LoadingView(videosViewModel: videosViewModel)
+        GenericContentView(
+            viewModel: videosViewModel,
+            selectedID: $selectedVideoID,
+            grid: {
+                GenericGridScrollView(
+                    viewModel: videosViewModel,
+                    selectedID: $selectedVideoID,
+                    message: "Loading videos...",
+                    retryMessage: "Retry loading videos..."
 
-        case .loadingMore, .loaded, .error:
-            if videosViewModel.items.isEmpty {
-                if videosViewModel.loadingState == .error {
-                    RefreshView(videosViewModel: videosViewModel)
-                } else {
-                    EmptyVideosView()
+                ) { video in
+                    AsyncImage(url: URL(string: video.image)) { img in
+                        img.resizable().frame(width: 150, height: 180)
+                    } placeholder: {
+                        ProgressView().frame(height: 200)
+                    }
                 }
-            } else {
-                VideosScrollView(
-                    videosViewModel: videosViewModel,
-                    selectedVideoID: $selectedVideoID
+            },
+            empty: {
+                GenericEmptyStateView(
+                    message: "No videos found.",
+                    systemImage: "video"
                 )
-            }
-
-        case .empty:
-            EmptyVideosView()
-        }
+            },
+            loadingMessage: "Loading videos...",
+            retryMessage: "Retry loading videos."
+        )
     }
 }

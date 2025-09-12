@@ -39,7 +39,7 @@ class PexelsGenericViewModel<T>: ObservableObject {
         }
 
         do {
-            try await Task.sleep(for: .seconds(2))  // Simula delay
+            try await Task.sleep(for: .seconds(2))
 
             let newItems = try await fetchFunction(currentPage)
 

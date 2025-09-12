@@ -13,10 +13,8 @@ struct VideoDestinationView: View {
     let videos: [PexelsVideoModel]
 
     var body: some View {
-        if let video = videos.first(where: { $0.id == videoID }) {
+        GenericDestinationView(id: videoID, items: videos, itemType: "Video") { video in
             VideoDetailView(video: video)
-        } else {
-            Text("Video not found")
         }
     }
 }

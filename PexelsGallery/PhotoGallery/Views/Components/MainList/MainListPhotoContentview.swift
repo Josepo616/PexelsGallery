@@ -13,26 +13,31 @@ struct MainListPhotoContentview: View {
     @Binding var selectedImageID: Int?
 
     var body: some View {
-        switch imagesViewModel.loadingState {
-        case .initialLoading:
-            LoadingView(imagesViewModel: imagesViewModel)
-
-        case .loadingMore, .loaded, .error:
-            if imagesViewModel.items.isEmpty {
-                if imagesViewModel.loadingState == .error {
-                    RefreshView(imagesViewModel: imagesViewModel)
-                } else {
-                    EmptyImagesView()
+        GenericContentView(
+            viewModel: imagesViewModel,
+            selectedID: $selectedImageID,
+            grid: {
+                GenericGridScrollView(
+                    viewModel: imagesViewModel,
+                    selectedID: $selectedImageID,
+                    message: "Loading images...",
+                    retryMessage: "Retry loading images..."
+                ) { image in
+                    AsyncImage(url: URL(string: image.src.medium)) { img in
+                        img.resizable().frame(width: 150, height: 180)
+                    } placeholder: {
+                        ProgressView().frame(height: 200)
+                    }
                 }
-            } else {
-                ImagesScrollView(
-                    imagesViewModel: imagesViewModel,
-                    selectedImageID: $selectedImageID
+            },
+            empty: {
+                GenericEmptyStateView(
+                    message: "No images found.",
+                    systemImage: "photo"
                 )
-            }
-
-        case .empty:
-            EmptyImagesView()
-        }
+            },
+            loadingMessage: "Loading images...",
+            retryMessage: "Retry loading images."
+        )
     }
 }
