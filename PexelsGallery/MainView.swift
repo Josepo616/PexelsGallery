@@ -18,7 +18,9 @@ struct MainView: View {
                 MainListPhotoView(imagesViewModel: imagesViewModel)
                     .onAppear {
                         Task {
-                            await imagesViewModel.fetchItems()
+                            if imagesViewModel.items.isEmpty {
+                                await imagesViewModel.fetchItems()
+                            }
                         }
                     }
             }
@@ -30,7 +32,9 @@ struct MainView: View {
                 MainListVideoView(videosViewModel: videosViewModel)
                     .onAppear {
                         Task {
-                            await videosViewModel.fetchItems()
+                            if videosViewModel.items.isEmpty {
+                                await videosViewModel.fetchItems()
+                            }
                         }
                     }
             }
