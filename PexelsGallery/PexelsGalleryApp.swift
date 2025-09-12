@@ -9,9 +9,13 @@ import SwiftUI
 
 @main
 struct PexelsGalleryApp: App {
+    
+    @StateObject private var imagesViewModel = PexelsImageViewModel()
+    @StateObject private var videosViewModel = PexelsVideoViewModel()
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            MainView(imagesViewModel: imagesViewModel, videosViewModel: videosViewModel)
         }
     }
 }
