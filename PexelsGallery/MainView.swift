@@ -14,7 +14,7 @@ struct MainView: View {
     
     var body: some View {
         TabView {
-            NavigationView {
+            NavigationStack {
                 MainListPhotoView(imagesViewModel: imagesViewModel)
                     .onAppear {
                         Task {
@@ -28,7 +28,7 @@ struct MainView: View {
                 Label("Photos", systemImage: "photo")
             }
 
-            NavigationView {
+            NavigationStack {
                 MainListVideoView(videosViewModel: videosViewModel)
                     .onAppear {
                         Task {
