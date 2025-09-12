@@ -9,15 +9,15 @@ import SwiftUI
 
 struct LoadingView: View {
 
-    var viewModel: PexelsImageViewModel?
-    var viewModel2: PexelsVideoViewModel?
+    var imagesViewModel: PexelsImageViewModel?
+    var videosViewModel: PexelsVideoViewModel?
 
     var body: some View {
         VStack {
-            if viewModel != nil {
+            if imagesViewModel != nil {
                 Text("Loading images...")
                     .foregroundColor(.gray)
-            } else if viewModel2 != nil {
+            } else if videosViewModel != nil {
                 Text("Loading videos...")
                     .foregroundColor(.gray)
             } else {

@@ -9,8 +9,8 @@ import SwiftUI
 
 struct RefreshView: View {
     
-    var viewModel: PexelsImageViewModel?
-    var viewModel2: PexelsVideoViewModel?
+    var imagesViewModel: PexelsImageViewModel?
+    var videosViewModel: PexelsVideoViewModel?
 
     var body: some View {
         VStack(spacing: 16) {
@@ -18,12 +18,12 @@ struct RefreshView: View {
                 .foregroundColor(.red)
             Button("Retry") {
                 Task {
-                    if let imageVM = viewModel {
+                    if let imageVM = imagesViewModel {
                         await imageVM.fetchImages(
                             preserveData: !imageVM.images.isEmpty
                         )
                     }
-                    if let videoVM = viewModel2 {
+                    if let videoVM = videosViewModel {
                         await videoVM.fetchVideos(
                             preserveData: !videoVM.videos.isEmpty
                         )

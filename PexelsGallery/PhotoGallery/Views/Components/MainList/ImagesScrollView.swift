@@ -9,26 +9,26 @@ import SwiftUI
 
 struct ImagesScrollView: View {
 
-    @ObservedObject var viewModel: PexelsImageViewModel
+    @ObservedObject var imagesViewModel: PexelsImageViewModel
     @Binding var selectedImageID: Int?
 
     var body: some View {
         ScrollView {
             ImageGridView(
-                images: viewModel.images,
+                images: imagesViewModel.images,
                 onImageTap: { id in selectedImageID = id },
                 loadMore: {
                     Task {
-                        await viewModel.fetchImages(isLoadMore: true)
+                        await imagesViewModel.fetchImages(isLoadMore: true)
                     }
                 }
             )
 
-            switch viewModel.loadingState {
+            switch imagesViewModel.loadingState {
             case .loadingMore:
-                LoadingView(viewModel: viewModel)
+                LoadingView(imagesViewModel: imagesViewModel)
             case .error:
-                RefreshView(viewModel: viewModel)
+                RefreshView(imagesViewModel: imagesViewModel)
                     .padding()
             default:
                 EmptyView()
@@ -38,10 +38,10 @@ struct ImagesScrollView: View {
     }
 
     private func loadInitialImagesIfNeeded() {
-        if viewModel.images.isEmpty && viewModel.loadingState == .initialLoading
+        if imagesViewModel.images.isEmpty && imagesViewModel.loadingState == .initialLoading
         {
             Task {
-                await viewModel.fetchImages()
+                await imagesViewModel.fetchImages()
             }
         }
     }

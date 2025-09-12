@@ -9,33 +9,33 @@ import SwiftUI
 
 struct MainListVideoView: View {
 
-    @ObservedObject var viewModel2: PexelsVideoViewModel
+    @ObservedObject var videosViewModel: PexelsVideoViewModel
     @State private var selectedVideoID: Int? = nil
 
     var body: some View {
         NavigationStack {
             MainListVideoContentView(
-                viewModel2: viewModel2,
+                videosViewModel: videosViewModel,
                 selectedVideoID: $selectedVideoID
             )
             .navigationTitle("Pexels Gallery")
             .navigationDestination(item: $selectedVideoID) { videoID in
                 VideoDestinationView(
                     videoID: videoID,
-                    videos: viewModel2.videos
+                    videos: videosViewModel.videos
                 )
             }
         }
-        .alert("Error", isPresented: $viewModel2.showAlert) {
+        .alert("Error", isPresented: $videosViewModel.showAlert) {
             Button("OK") {
-                viewModel2.error = nil
-                viewModel2.showAlert = false
+                videosViewModel.error = nil
+                videosViewModel.showAlert = false
             }
             Button("Exit", role: .cancel) {
                 exit(0)
             }
         } message: {
-            Text(viewModel2.error?.localizedDescription ?? "Unknown error")
+            Text(videosViewModel.error?.localizedDescription ?? "Unknown error")
         }
     }
 }

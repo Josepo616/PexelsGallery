@@ -9,16 +9,16 @@ import SwiftUI
 
 struct MainView: View {
     
-    var viewModel: PexelsImageViewModel
-    var viewModel2: PexelsVideoViewModel
+    var imagesViewModel: PexelsImageViewModel
+    var videosViewModel: PexelsVideoViewModel
     
     var body: some View {
         TabView {
             NavigationView {
-                MainListPhotoView(viewModel: viewModel)
+                MainListPhotoView(imagesViewModel: imagesViewModel)
                     .onAppear {
                         Task {
-                            await viewModel.fetchImages()
+                            await imagesViewModel.fetchImages()
                         }
                     }
             }
@@ -27,10 +27,10 @@ struct MainView: View {
             }
 
             NavigationView {
-                MainListVideoView(viewModel2: viewModel2)
+                MainListVideoView(videosViewModel: videosViewModel)
                     .onAppear {
                         Task {
-                            await viewModel2.fetchVideos()
+                            await videosViewModel.fetchVideos()
                         }
                     }
             }

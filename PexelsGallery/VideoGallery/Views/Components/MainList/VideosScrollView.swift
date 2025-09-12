@@ -9,26 +9,26 @@ import SwiftUI
 
 struct VideosScrollView: View {
 
-    @ObservedObject var viewModel2: PexelsVideoViewModel
+    @ObservedObject var videosViewModel: PexelsVideoViewModel
     @Binding var selectedVideoID: Int?
 
     var body: some View {
         ScrollView {
             VideosGridView(
-                videos: viewModel2.videos,
+                videos: videosViewModel.videos,
                 onVideoTap: { id in selectedVideoID = id },
                 loadMore: {
                     Task {
-                        await viewModel2.fetchVideos(isLoadMore: true)
+                        await videosViewModel.fetchVideos(isLoadMore: true)
                     }
                 }
             )
 
-            switch viewModel2.loadingState {
+            switch videosViewModel.loadingState {
             case .loadingMore:
-                LoadingView(viewModel2: viewModel2)
+                LoadingView(videosViewModel: videosViewModel)
             case .error:
-                RefreshView(viewModel2: viewModel2)
+                RefreshView(videosViewModel: videosViewModel)
                     .padding()
             default:
                 EmptyView()
@@ -38,11 +38,11 @@ struct VideosScrollView: View {
     }
 
     private func loadInitialImagesIfNeeded() {
-        if viewModel2.videos.isEmpty
-            && viewModel2.loadingState == .initialLoading
+        if videosViewModel.videos.isEmpty
+            && videosViewModel.loadingState == .initialLoading
         {
             Task {
-                await viewModel2.fetchVideos()
+                await videosViewModel.fetchVideos()
             }
         }
     }

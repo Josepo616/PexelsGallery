@@ -9,30 +9,30 @@ import SwiftUI
 
 struct MainListPhotoView: View {
 
-    @ObservedObject var viewModel: PexelsImageViewModel
+    @ObservedObject var imagesViewModel: PexelsImageViewModel
     @State private var selectedImageID: Int? = nil
 
     var body: some View {
         NavigationStack {
             MainListPhotoContentview(
-                viewModel: viewModel,
+                imagesViewModel: imagesViewModel,
                 selectedImageID: $selectedImageID
             )
             .navigationTitle("Pexels Gallery")
             .navigationDestination(item: $selectedImageID) { imageID in
-                ImageDestinationView(imageID: imageID, images: viewModel.images)
+                ImageDestinationView(imageID: imageID, images: imagesViewModel.images)
             }
         }
-        .alert("Error", isPresented: $viewModel.showAlert) {
+        .alert("Error", isPresented: $imagesViewModel.showAlert) {
             Button("OK") {
-                viewModel.error = nil
-                viewModel.showAlert = false
+                imagesViewModel.error = nil
+                imagesViewModel.showAlert = false
             }
             Button("Exit", role: .cancel) {
                 exit(0)
             }
         } message: {
-            Text(viewModel.error?.localizedDescription ?? "Unknown error")
+            Text(imagesViewModel.error?.localizedDescription ?? "Unknown error")
         }
     }
 }

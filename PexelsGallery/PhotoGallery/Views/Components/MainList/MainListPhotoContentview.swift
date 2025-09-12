@@ -9,24 +9,24 @@ import SwiftUI
 
 struct MainListPhotoContentview: View {
 
-    @ObservedObject var viewModel: PexelsImageViewModel
+    @ObservedObject var imagesViewModel: PexelsImageViewModel
     @Binding var selectedImageID: Int?
 
     var body: some View {
-        switch viewModel.loadingState {
+        switch imagesViewModel.loadingState {
         case .initialLoading:
-            LoadingView(viewModel: viewModel)
+            LoadingView(imagesViewModel: imagesViewModel)
 
         case .loadingMore, .loaded, .error:
-            if viewModel.images.isEmpty {
-                if viewModel.loadingState == .error {
-                    RefreshView(viewModel: viewModel)
+            if imagesViewModel.images.isEmpty {
+                if imagesViewModel.loadingState == .error {
+                    RefreshView(imagesViewModel: imagesViewModel)
                 } else {
                     EmptyImagesView()
                 }
             } else {
                 ImagesScrollView(
-                    viewModel: viewModel,
+                    imagesViewModel: imagesViewModel,
                     selectedImageID: $selectedImageID
                 )
             }

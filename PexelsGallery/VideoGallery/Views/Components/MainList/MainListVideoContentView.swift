@@ -9,24 +9,24 @@ import SwiftUI
 
 struct MainListVideoContentView: View {
     
-    @ObservedObject var viewModel2: PexelsVideoViewModel
+    @ObservedObject var videosViewModel: PexelsVideoViewModel
     @Binding var selectedVideoID: Int?
 
     var body: some View {
-        switch viewModel2.loadingState {
+        switch videosViewModel.loadingState {
         case .initialLoading:
-            LoadingView(viewModel2: viewModel2)
+            LoadingView(videosViewModel: videosViewModel)
 
         case .loadingMore, .loaded, .error:
-            if viewModel2.videos.isEmpty {
-                if viewModel2.loadingState == .error {
-                    RefreshView(viewModel2: viewModel2)
+            if videosViewModel.videos.isEmpty {
+                if videosViewModel.loadingState == .error {
+                    RefreshView(videosViewModel: videosViewModel)
                 } else {
                     EmptyVideosView()
                 }
             } else {
                 VideosScrollView(
-                    viewModel2: viewModel2,
+                    videosViewModel: videosViewModel,
                     selectedVideoID: $selectedVideoID
                 )
             }
