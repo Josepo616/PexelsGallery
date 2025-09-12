@@ -18,7 +18,7 @@ struct MainListPhotoContentview: View {
             LoadingView(imagesViewModel: imagesViewModel)
 
         case .loadingMore, .loaded, .error:
-            if imagesViewModel.images.isEmpty {
+            if imagesViewModel.items.isEmpty {
                 if imagesViewModel.loadingState == .error {
                     RefreshView(imagesViewModel: imagesViewModel)
                 } else {

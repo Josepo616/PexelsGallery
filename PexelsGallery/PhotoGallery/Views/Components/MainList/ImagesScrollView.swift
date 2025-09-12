@@ -15,11 +15,11 @@ struct ImagesScrollView: View {
     var body: some View {
         ScrollView {
             ImageGridView(
-                images: imagesViewModel.images,
+                images: imagesViewModel.items,
                 onImageTap: { id in selectedImageID = id },
                 loadMore: {
                     Task {
-                        await imagesViewModel.fetchImages(isLoadMore: true)
+                        await imagesViewModel.fetchItems(isLoadMore: true)
                     }
                 }
             )
@@ -38,10 +38,10 @@ struct ImagesScrollView: View {
     }
 
     private func loadInitialImagesIfNeeded() {
-        if imagesViewModel.images.isEmpty && imagesViewModel.loadingState == .initialLoading
+        if imagesViewModel.items.isEmpty && imagesViewModel.loadingState == .initialLoading
         {
             Task {
-                await imagesViewModel.fetchImages()
+                await imagesViewModel.fetchItems()
             }
         }
     }

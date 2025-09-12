@@ -7,63 +7,14 @@
 
 import Foundation
 
-@MainActor
-class PexelsVideoViewModel: ObservableObject {
-    
-    @Published var videos: [PexelsVideoModel] = []
-    @Published var error: NetworkClientError?
-    @Published var loadingState: LoadingState = .initialLoading
-    @Published var showAlert = false
-    private var currentPage = 1
-    private var isLoading = false
-    private let client: PexelsClientProtocol
-
+final class PexelsVideoViewModel: PexelsGenericViewModel<PexelsVideoModel> {
     init(client: PexelsClientProtocol = PexelsClient.defaultInitializer) {
-        self.client = client
-    }
-
-    func fetchVideos(isLoadMore: Bool = false, preserveData: Bool = false) async {
-        guard !isLoading else {
-            return
-        }
-
-        isLoading = true
-        defer {
-            isLoading = false
-        }
-
-        if isLoadMore {
-            currentPage += 1
-            loadingState = .loadingMore
-        } else {
-            currentPage = 1
-            loadingState = preserveData ? .loadingMore : .initialLoading
-        }
-
-        do {
-            try await Task.sleep(for: .seconds(2))
-
-            let newVideos = try await client.searchVideos(
+        super.init(fetchFunction: { page in
+            try await client.searchVideos(
                 query: "dark",
                 perPage: 12,
-                page: currentPage
+                page: page
             )
-
-            if isLoadMore {
-                videos.append(contentsOf: newVideos)
-            } else {
-                videos = preserveData ? videos + newVideos : newVideos
-            }
-
-            loadingState = videos.isEmpty ? .empty : .loaded
-        } catch let error as NetworkClientError {
-            showAlert = true
-            self.error = error
-            loadingState = .error
-        } catch {
-            showAlert = true
-            self.error = .invalidResponse
-            loadingState = .error
-        }
+        })
     }
 }

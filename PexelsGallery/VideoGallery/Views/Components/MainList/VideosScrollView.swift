@@ -15,11 +15,11 @@ struct VideosScrollView: View {
     var body: some View {
         ScrollView {
             VideosGridView(
-                videos: videosViewModel.videos,
+                videos: videosViewModel.items,
                 onVideoTap: { id in selectedVideoID = id },
                 loadMore: {
                     Task {
-                        await videosViewModel.fetchVideos(isLoadMore: true)
+                        await videosViewModel.fetchItems(isLoadMore: true)
                     }
                 }
             )
@@ -38,11 +38,11 @@ struct VideosScrollView: View {
     }
 
     private func loadInitialImagesIfNeeded() {
-        if videosViewModel.videos.isEmpty
+        if videosViewModel.items.isEmpty
             && videosViewModel.loadingState == .initialLoading
         {
             Task {
-                await videosViewModel.fetchVideos()
+                await videosViewModel.fetchItems()
             }
         }
     }

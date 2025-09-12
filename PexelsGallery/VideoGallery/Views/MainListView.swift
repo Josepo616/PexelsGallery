@@ -22,7 +22,7 @@ struct MainListVideoView: View {
             .navigationDestination(item: $selectedVideoID) { videoID in
                 VideoDestinationView(
                     videoID: videoID,
-                    videos: videosViewModel.videos
+                    videos: videosViewModel.items
                 )
             }
         }

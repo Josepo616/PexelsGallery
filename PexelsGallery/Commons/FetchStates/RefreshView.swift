@@ -19,13 +19,13 @@ struct RefreshView: View {
             Button("Retry") {
                 Task {
                     if let imageVM = imagesViewModel {
-                        await imageVM.fetchImages(
-                            preserveData: !imageVM.images.isEmpty
+                        await imageVM.fetchItems(
+                            preserveData: !imageVM.items.isEmpty
                         )
                     }
                     if let videoVM = videosViewModel {
-                        await videoVM.fetchVideos(
-                            preserveData: !videoVM.videos.isEmpty
+                        await videoVM.fetchItems(
+                            preserveData: !videoVM.items.isEmpty
                         )
                     }
                 }

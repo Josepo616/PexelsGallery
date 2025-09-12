@@ -20,7 +20,7 @@ struct MainListPhotoView: View {
             )
             .navigationTitle("Pexels Gallery")
             .navigationDestination(item: $selectedImageID) { imageID in
-                ImageDestinationView(imageID: imageID, images: imagesViewModel.images)
+                ImageDestinationView(imageID: imageID, images: imagesViewModel.items)
             }
         }
         .alert("Error", isPresented: $imagesViewModel.showAlert) {

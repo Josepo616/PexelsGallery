@@ -18,7 +18,7 @@ struct MainListVideoContentView: View {
             LoadingView(videosViewModel: videosViewModel)
 
         case .loadingMore, .loaded, .error:
-            if videosViewModel.videos.isEmpty {
+            if videosViewModel.items.isEmpty {
                 if videosViewModel.loadingState == .error {
                     RefreshView(videosViewModel: videosViewModel)
                 } else {
