@@ -18,17 +18,7 @@ class NetworkClient: NetworkClientProtocol {
     func sendRequest<T: Decodable>(_ request: URLRequest) async throws -> T {
         do {
             let (data, response) = try await session.data(for: request)
-
-            if let httpResponse = response as? HTTPURLResponse {
-                print("[DEBUG] HTTP Status Code: \(httpResponse.statusCode)")
-            }
-
-            if let body = String(data: data, encoding: .utf8) {
-                print("[DEBUG] Raw response body:\n\(body)")
-            } else {
-                print("[DEBUG] Unable to decode response body as UTF-8 string")
-            }
-
+            
             guard let httpResponse = response as? HTTPURLResponse,
                   (200...299).contains(httpResponse.statusCode)
             else {
@@ -36,11 +26,9 @@ class NetworkClient: NetworkClientProtocol {
             }
 
             let decoder = JSONDecoder()
-            decoder.keyDecodingStrategy = .convertFromSnakeCase
             return try decoder.decode(T.self, from: data)
 
         } catch let error as URLError {
-            print("[DEBUG] URLError: \(error)")
             switch error.code {
             case .badURL:
                 throw NetworkClientError.badUrl
@@ -60,7 +48,6 @@ class NetworkClient: NetworkClientProtocol {
                 throw NetworkClientError.badConnection
             }
         } catch let decodingError {
-            print("[DEBUG] Decoding error: \(decodingError)")
             throw NetworkClientError.unknown
         }
     }

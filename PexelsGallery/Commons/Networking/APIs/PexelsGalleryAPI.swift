@@ -30,7 +30,6 @@ struct PexelsGalleryAPI: Identifiable {
         guard let finalURL = components.url else {
             fatalError("Invalid URL components: \(components)")
         }
-        print(finalURL)
         return finalURL
     }
 

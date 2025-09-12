@@ -5,8 +5,8 @@
 //  Created by JoseAlvarez on 9/9/25.
 //
 
-import SwiftUI
 import AVKit
+import SwiftUI
 
 struct VideoDetailView: View {
     let video: PexelsVideoModel
@@ -28,27 +28,12 @@ struct VideoDetailView: View {
         }
         .navigationTitle("Video Detail")
         .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button {
-                    showInfoSheet = true
-                } label: {
-                    Image(systemName: "info.circle")
-                }
-            }
-        }
         .onAppear {
-            if let videoURLString = video.videoFiles.first(where: { $0.quality == "hd"})?.link, let url = URL(string: videoURLString) {
-                print("URL created:", url)
+            if let videoURLString = video.videoFiles.first(where: {
+                $0.quality == "hd"
+            })?.link, let url = URL(string: videoURLString) {
                 player = AVPlayer(url: url)
-            } else {
-                print("struct:", video)
-                print("ERROR: videoURL is nil or invalid")
             }
-        }
-        .sheet(isPresented: $showInfoSheet) {
-            // Aquí puedes mostrar más info del video
-            Text("Información del video")
         }
     }
 }
